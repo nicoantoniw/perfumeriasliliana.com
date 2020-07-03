@@ -607,13 +607,13 @@ export default {
   }
 
   .parallax1 {
-    background-image: url("../assets/banne3.jpg");
+    background-image: url("../assets/banne2.jpg");
   }
   .parallax2 {
-    background-image: url("../assets/banne3.jpg");
+    background-image: url("../assets/banne2.jpg");
   }
   .parallax3 {
-    background-image: url("../assets/banne3.jpg");
+    background-image: url("../assets/banne2.jpg");
   }
 
   .parallax1,
@@ -633,7 +633,7 @@ export default {
     align-items: center;
 
     .overlay {
-      background: rgba($color: #000000, $alpha: 0.8);
+      background: rgba($color: #000000, $alpha: 0.3);
       position: absolute;
       z-index: 3;
       width: 100%;
