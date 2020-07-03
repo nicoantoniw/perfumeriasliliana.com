@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-icon class="mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
+    <v-icon class="mt-3 mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
     <div class="products-container">
       <div class="toolbar">
         <h1>Ajustá tu Búsqueda</h1>
@@ -321,6 +321,71 @@ export default {
           &:hover {
             background: #000;
             color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1264px) {
+  .products-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+    .toolbar {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .products {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+
+      .products-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .product-boxes {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 3rem;
+        .product-box {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 3px 4px 8px 0 rgba(0, 0, 0, 0.2);
+          padding: 2rem;
+          // border: 1px solid rgba(0, 0, 0, 0.4);
+          height: 500px;
+          width: 400px;
+          text-align: center;
+          .product-title {
+            font-size: 1.5rem;
+            height: 100px;
+          }
+          .product-image {
+            img {
+              height: 200px;
+            }
+          }
+          .product-price {
+            font-size: 1.3rem;
+          }
+          .product-btn {
+            transition: 0.2s ease-in-out;
+            &:hover {
+              background: #000;
+              color: white;
+            }
           }
         }
       }

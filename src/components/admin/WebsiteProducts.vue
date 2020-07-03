@@ -31,7 +31,12 @@
           <v-spacer />
           <v-dialog :retain-focus="false" v-model="dialog2" max-width="1000px">
             <template v-slot:activator="{ on }">
-              <v-btn color="white" class="black--text" v-on="on">CAMBIAR CATEGORIA</v-btn>
+              <v-btn
+                :disabled="selected.length===0"
+                color="white"
+                class="black--text"
+                v-on="on"
+              >CAMBIAR CATEGORIA</v-btn>
             </template>
             <v-card>
               <v-card-title>
@@ -120,10 +125,11 @@ export default {
         sortable: true,
         value: "code"
       },
+      { text: "Marca", value: "brand", sortable: true },
       { text: "Nombre", value: "name", sortable: true },
       { text: "Descripcion", value: "description", sortable: false },
       { text: "Categoria", value: "category.name", sortable: true },
-
+      { text: "Imagen", value: "image", sortable: true },
       { text: "Descuentos", value: "totalDiscounts", sortable: false },
       { text: "Precio Publico", value: "finalPrice", sortable: true },
       { text: "Stock", value: "stock", sortable: false },
@@ -148,7 +154,13 @@ export default {
       try {
         const response = await axios.get(`/website/admin/products`);
         const products = response.data.products;
-        products.forEach(product => {});
+        products.forEach(product => {
+          if (product.image) {
+            product.image = "si";
+          } else {
+            product.image = "no";
+          }
+        });
         this.products = products;
       } catch (err) {
         console.log(err);

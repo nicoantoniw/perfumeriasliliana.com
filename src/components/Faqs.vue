@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-icon class="mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
+    <v-icon class="mt-3 mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
     <div class="faqs-container">
       <h1>Preguntas Frecuentes</h1>
       <div class="faqs">

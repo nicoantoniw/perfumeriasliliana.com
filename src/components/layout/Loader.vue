@@ -1,9 +1,8 @@
 <template>
   <div class="loader-container">
-    <v-progress-circular class="loader" indeterminate color="pink" size="500"></v-progress-circular>
+    <v-progress-circular class="loader" indeterminate color="purple" size="400"></v-progress-circular>
     <div class="loader-content">
-      <h1>Logo</h1>
-      <h2>Bienvenido a Perfumerias Liliana</h2>
+      <img src="../../assets/logo.png" alt="perfu-logo" />
     </div>
   </div>
 </template>
@@ -31,6 +30,9 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    img {
+      height: 100px;
+    }
   }
 }
 </style>

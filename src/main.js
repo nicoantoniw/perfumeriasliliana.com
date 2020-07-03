@@ -7,10 +7,6 @@ import axios from 'axios';
 
 Vue.config.productionTip = false;
 
-
-
-// Vue.config.productionTip = false;
-
 // axios.defaults.baseURL = 'https://apizoe.ozixcommerce.com/api';
 axios.defaults.baseURL = 'http://localhost:3000/api';
 axios.defaults.headers.common['Content-Type'] = `application/json`;

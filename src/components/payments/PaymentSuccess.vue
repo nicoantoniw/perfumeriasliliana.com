@@ -17,7 +17,6 @@ export default {
   methods: {
     async confirmPayment() {
       const response = await axios.get(`/website/user/user`);
-      console.log(response);
       const orderId = response.data.user.lastOrder;
       await axios.patch(`/order/status/${orderId}`, { status: "No preparado" });
       setTimeout(() => {

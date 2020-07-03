@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link style="text-decoration:none" :to="{ name: 'home' }">
-      <v-icon class="mb-8 ml-8" color="black" x-large>arrow_back</v-icon>
+      <v-icon class="mt-3 mb-8 ml-8" color="black" x-large>arrow_back</v-icon>
     </router-link>
     <v-data-table
       :headers="headers"

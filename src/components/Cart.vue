@@ -1,54 +1,56 @@
 <template>
-  <div class="cart-container">
+  <div>
     <router-link style="text-decoration:none" :to="{ name: 'home' }">
-      <v-icon class="mb-8 ml-8" color="black" x-large>arrow_back</v-icon>
+      <v-icon class="mt-3 mb-8 ml-8" color="black" x-large>arrow_back</v-icon>
     </router-link>
-    <div class="cart-details">
-      <h1 class="cart-title">Carrito de compras</h1>
-      <table class="cart-table">
-        <tr class="cart-table-titles">
-          <th class="cart-table-title">Producto</th>
-          <th class="cart-table-title">Precio</th>
-          <th class="cart-table-title">Cantidad</th>
-          <th class="cart-table-title">Subtotal</th>
-        </tr>
-        <tr class="cart-table-items" v-for="(item, index) in cartItems" :key="item._id">
-          <td class="image-name-td cart-table-item">
-            <img class="item-image" :src="item.image" alt="product" />
-            <p class="product-name">{{ item.name }}</p>
-          </td>
-          <td class="cart-table-item">
-            <p class="product-price">${{ item.price / item.quantity }}</p>
-          </td>
-          <td class="cart-table-item">
-            <p class="product-quantity">{{ item.quantity }}</p>
-          </td>
-          <td class="cart-table-item">
-            <p class="product-price">${{ item.price }}</p>
-          </td>
-          <td class="cart-table-item">
-            <v-icon @click="deleteItem(item.product, index)">cancel</v-icon>
-          </td>
-        </tr>
-      </table>
-      <v-btn style="margin-top:2rem" @click="restoreCart" color="black" dark>Vaciar Carrito</v-btn>
-    </div>
-    <div class="cart-summary">
-      <h1 class="cart-title">Resumen de compra</h1>
-      <h2 class="cart-subtotal">Subtotal: ${{total}}</h2>
-      <h2 class="cart-discounts">Descuentos: $0</h2>
-      <h2 class="cart-taxes">Impuestos: $0</h2>
-      <h2 class="cart-shipping" v-if="total<4000 &&cartItems.length>0">Envio: $250</h2>
-      <h2 class="cart-shipping" v-else>Envio: $0</h2>
-      <h2 class="cart-total" v-if="total<4000&&cartItems.length>0">Total: {{total+250}}</h2>
-      <h2 class="cart-total" v-else>Total: {{total}}</h2>
-      <v-btn
-        color="black"
-        :disabled="cartItems.length===0"
-        class="white--text"
-        @click="addMercadopagoSale"
-        x-large
-      >Realizar compra</v-btn>
+    <div class="cart-container">
+      <div class="cart-details">
+        <h1 class="cart-title">Carrito de compras</h1>
+        <table class="cart-table">
+          <tr class="cart-table-titles">
+            <th class="cart-table-title">Producto</th>
+            <th class="cart-table-title">Precio</th>
+            <th class="cart-table-title">Cantidad</th>
+            <th class="cart-table-title">Subtotal</th>
+          </tr>
+          <tr class="cart-table-items" v-for="(item, index) in cartItems" :key="item._id">
+            <td class="image-name-td cart-table-item">
+              <img class="item-image" :src="item.image" alt="product" />
+              <p class="product-name">{{ item.name }}</p>
+            </td>
+            <td class="cart-table-item">
+              <p class="product-price">${{ item.price / item.quantity }}</p>
+            </td>
+            <td class="cart-table-item">
+              <p class="product-quantity">{{ item.quantity }}</p>
+            </td>
+            <td class="cart-table-item">
+              <p class="product-price">${{ item.price }}</p>
+            </td>
+            <td class="cart-table-item">
+              <v-icon @click="deleteItem(item.product, index)">cancel</v-icon>
+            </td>
+          </tr>
+        </table>
+        <v-btn @click="restoreCart" color="black" dark>Vaciar Carrito</v-btn>
+      </div>
+      <div class="cart-summary">
+        <h1 class="cart-title">Resumen de compra</h1>
+        <h2 class="cart-subtotal">Subtotal: ${{total}}</h2>
+        <h2 class="cart-discounts">Descuentos: $0</h2>
+        <h2 class="cart-taxes">Impuestos: $0</h2>
+        <h2 class="cart-shipping" v-if="total<4000 &&cartItems.length>0">Envio: $250</h2>
+        <h2 class="cart-shipping" v-else>Envio: $0</h2>
+        <h2 class="cart-total" v-if="total<4000&&cartItems.length>0">Total: {{total+250}}</h2>
+        <h2 class="cart-total" v-else>Total: {{total}}</h2>
+        <v-btn
+          color="black"
+          :disabled="cartItems.length===0"
+          class="white--text"
+          @click="addMercadopagoSale"
+          x-large
+        >Realizar compra</v-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -162,7 +164,8 @@ export default {
       };
       try {
         const calculatedDiscount = 0;
-        items.forEach(item => {
+        for (let index = 0; index < items.length; index++) {
+          const item = items[index];
           const details = {
             product: item.name,
             quantity: item.quantity,
@@ -171,9 +174,16 @@ export default {
             subtotal: 0,
             totalIva: 0
           };
+          if (item.variant) {
+            const responseVariant = await axios.get(
+              `/product/variants/${item.product}/${item.variant}`
+            );
+            const variant = responseVariant.data.variant;
+            details.variant = variant.name;
+          }
           data.total += details.price;
           data.details.push(details);
-        });
+        }
         const response = await axios.post(`/order/add-from-website`, data);
         const response2 = await axios.post(`/website/user/add-last-order`, {
           orderId: response.data.order._id
@@ -194,6 +204,9 @@ export default {
   .cart-details {
     grid-column: 1 / span 5;
     margin-left: 2rem;
+    .v-btn {
+      margin-top: 2rem;
+    }
     .cart-title {
       margin-bottom: 3rem;
     }
@@ -248,6 +261,62 @@ export default {
     }
     .cart-total {
       margin-bottom: 2rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 1264px) {
+  .cart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 3rem;
+    .cart-details {
+      margin-left: 0;
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .v-btn {
+        margin: auto;
+      }
+      .cart-title {
+      }
+      .cart-table {
+        width: 70%;
+        .cart-table-title {
+        }
+        .cart-table-items {
+          text-align: center;
+          p {
+            font-size: 1rem;
+          }
+          .cart-table-item {
+            border-top: 1px solid rgb(209, 208, 208);
+            padding: 1rem;
+          }
+          .image-name-td {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            align-items: center;
+            .item-image {
+              height: 50px;
+              margin-right: 1rem;
+              margin-bottom: 0.5rem;
+            }
+          }
+        }
+      }
+    }
+    .cart-summary {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

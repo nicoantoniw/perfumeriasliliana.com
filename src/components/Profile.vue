@@ -1,7 +1,7 @@
 <template>
   <div class="profile-container">
     <router-link :to="{ name: 'home' }">
-      <v-icon class="mb-8" color="black" x-large>arrow_back</v-icon>
+      <v-icon class="mt-3 mb-8" color="black" x-large>arrow_back</v-icon>
     </router-link>
 
     <h2>Cambiar contraseña</h2>
@@ -29,7 +29,7 @@
         <v-progress-circular class="loader" v-if="loader1" indeterminate dark></v-progress-circular>
       </v-col>
     </v-row>
-    <h2>Datos Personales</h2>
+    <h2 class="mt-3">Datos Personales</h2>
     <v-row>
       <v-col cols="12" lg="3" sm="12" xs="12" md="3">
         <v-text-field color="black" v-model="name" outlined label="Nombre"></v-text-field>

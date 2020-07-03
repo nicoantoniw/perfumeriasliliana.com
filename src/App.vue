@@ -6,16 +6,7 @@
       </div>
       <div :style="contentStyle">
         <Navbar />
-        <AdminMenu
-          v-if="
-          checkRoute === '/admin/products' ||
-            checkRoute === '/admin/orders' ||
-            checkRoute === '/admin/website-products' ||
-            checkRoute === '/admin/featured-products' ||
-            checkRoute === '/admin/promotion-products' ||
-            checkRoute === '/admin/users'
-        "
-        />
+        <AdminMenu />
         <v-fade-transition mode="out-in">
           <router-view />
         </v-fade-transition>
@@ -57,17 +48,12 @@ export default {
     setTimeout(() => {
       this.loading = false;
     }, 4000);
-  },
-  computed: {
-    checkRoute() {
-      return this.$route.path;
-    }
   }
 };
 </script>
 
 <style lang="scss">
 * {
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Noto Sans HK", sans-serif;
 }
 </style>

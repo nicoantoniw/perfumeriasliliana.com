@@ -5,6 +5,9 @@
       checkRoute !== '/admin/products' &&
         checkRoute !== '/admin/website-products' &&
         checkRoute !== '/admin/orders' &&
+        checkRoute !== '/admin/categories' &&
+        checkRoute !== '/admin/options' &&
+        checkRouteByName !== 'variants' &&
         checkRoute !== '/admin/featured-products' &&
         checkRoute !== '/admin/promotion-products' &&
         checkRoute !== '/admin/users'
@@ -35,7 +38,7 @@
       </div>
 
       <div class="footer-box">
-        <h1 style="margin-bottom:1rem">logo</h1>
+        <img src="../../assets/logo.png" alt="logo" />
         <div class="icons">
           <a href="https://instagram.com/perfumeriasliliana" target="_blank">
             <v-icon style="margin-right:1rem;margin-bottom:1rem" x-large color="#000">mdi-instagram</v-icon>
@@ -60,17 +63,6 @@
     </div>
     <div class="ozix-container">
       <p>&copy 2020 Perfumeria Liliana. Todos los derechos reservados.</p>
-      <div>
-        <p>
-          Designed by
-          <span>
-            <a href="https://ozixmedia.com" target="_blank">Ozixmedia</a>
-          </span>
-        </p>
-        <a href="https://ozixmedia.com" target="_blank">
-          <img src="../../assets/ozixmedia-logo.png" alt="ozixmedia-logo" />
-        </a>
-      </div>
     </div>
   </div>
 </template>
@@ -82,6 +74,9 @@ export default {
   computed: {
     checkRoute() {
       return this.$route.path;
+    },
+    checkRouteByName() {
+      return this.$route.name;
     }
   }
 };
@@ -97,9 +92,14 @@ export default {
 .footer-boxes {
   padding: 2rem;
   display: flex;
+  margin: 3rem;
+  justify-content: space-between;
 
   .footer-box {
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     a {
       color: black;
       text-decoration: none;
@@ -122,35 +122,92 @@ export default {
       margin-right: 1rem;
       margin-bottom: 1rem;
     }
+    img {
+      height: 100px;
+      margin-bottom: 1rem;
+    }
   }
 }
 
 .ozix-container {
-  display: flex;
-  justify-content: space-between;
   background: #000;
   width: 100%;
   padding: 1rem;
+  text-align: center;
   p {
-    margin: auto;
     color: white;
   }
+}
 
-  div {
-    margin: auto;
+@media only screen and (max-width: 1264px) {
+  .footer-boxes {
+    padding: 0;
     display: flex;
-  }
-  p {
-    margin-right: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .footer-box {
+      margin: auto;
+      text-align: center;
+      margin-bottom: 2rem;
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      .icons {
+        a {
+          text-decoration: none;
+        }
+      }
+      p {
+        font-size: 1.1rem;
+      }
+
+      .email {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .v-icon {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
   }
 
-  a {
-    text-decoration: none;
-    color: white;
-  }
+  .ozix-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    p {
+      margin: 0;
+      color: white;
+      margin-bottom: 2rem;
+    }
 
-  img {
-    height: 70px;
+    div {
+      margin: 0;
+      display: flex;
+      p {
+        margin-right: 1rem;
+        margin-top: 1.7rem;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    img {
+      height: 70px;
+    }
   }
 }
 </style>

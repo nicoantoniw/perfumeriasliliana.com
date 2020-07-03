@@ -151,7 +151,7 @@
     </template>
 
     <template v-slot:item.action="{ item }" class="px-0">
-      <v-dialog :retain-focus="false" v-model="dialog2" max-width="500px">
+      <v-dialog :retain-focus="false" v-model="dialog2" max-width="800px">
         <template v-slot:activator="{ on: dialog2 }">
           <v-tooltip top>
             <template v-slot:activator="{ on: tooltip }">
@@ -170,6 +170,7 @@
             <thead>
               <tr>
                 <th class="text-left">Productos</th>
+                <th class="text-left">Variación</th>
                 <th class="text-left">Cantidad</th>
                 <th class="text-left">Descuento</th>
                 <th class="text-left">Importe</th>
@@ -178,6 +179,7 @@
             <tbody>
               <tr v-for="(item, index) in order.details" :key="index">
                 <td>{{ item.product }}</td>
+                <td>{{ item.variant }}</td>
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.aggregateDiscount }}</td>
                 <td>${{ item.price }}</td>
@@ -381,6 +383,7 @@ export default {
         const response = await axios.get(`/order/orders/${id}`);
         const order = response.data.order;
         this.order = order;
+        console.log(order);
       } catch (err) {
         errorAlertHandler(err, "No encontrado");
       }

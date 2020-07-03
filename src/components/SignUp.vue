@@ -34,17 +34,35 @@
         <v-text-field color="black" v-model="zip" outlined label="Codigo postal"></v-text-field>
       </v-col>
     </v-row>
-    <v-btn x-large color="black" @click="signup" dark>Registrarse</v-btn>
+    <vue-recaptcha
+      sitekey="6Lfkl6UZAAAAANkMcb_9uLlDjg5n2_5HpXTMqcnl"
+      :loadRecaptchaScript="true"
+      @verify="captchaVerify"
+      @error="captchaError"
+      @expired="captchaExpired"
+    ></vue-recaptcha>
+    <v-btn
+      class="mt-5 white--text"
+      :disabled="!button"
+      color="black"
+      x-large
+      @click="signup"
+    >Registrarse</v-btn>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import errorAlertHandler from "../util/error";
+import VueRecaptcha from "vue-recaptcha";
 
 export default {
   name: "signUp",
+  components: {
+    VueRecaptcha
+  },
   data: () => ({
+    button: false,
     email: "",
     password: "",
     name: "",
@@ -97,13 +115,30 @@ export default {
           );
         }
       }
+    },
+    captchaVerify() {
+      this.button = true;
+    },
+    captchaError() {
+      this.$store.dispatch("showAlert", {
+        status: true,
+        type: "error",
+        text: "Error de verificacion, por favor intenta de nuevo"
+      });
+    },
+    captchaExpired() {
+      this.$store.dispatch("showAlert", {
+        status: true,
+        type: "warning",
+        text: "Captcha expirado, por favor intenta de nuevo"
+      });
     }
   }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang="scss">
+<style lang="scss">
 .signup-container {
   padding: 4rem;
   display: flex;
@@ -120,6 +155,12 @@ export default {
   }
   h1 {
     margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 1264px) {
+  .email-password {
+    flex-direction: column;
   }
 }
 </style>

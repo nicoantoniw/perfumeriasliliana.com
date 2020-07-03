@@ -6,6 +6,9 @@ import Product from '../components/Product.vue';
 import Products from '../components/Products.vue';
 import Cart from '../components/Cart.vue';
 import AdminProducts from '../components/admin/AdminProducts.vue';
+import AdminCategories from '../components/admin/AdminCategories.vue';
+import Options from '../components/admin/Options.vue';
+import Variants from '../components/admin/Variants.vue';
 import WebsiteProducts from '../components/admin/WebsiteProducts.vue';
 import FeaturedProducts from '../components/admin/FeaturedProducts.vue';
 import PromotionProducts from '../components/admin/PromotionProducts.vue';
@@ -19,6 +22,7 @@ import About from '../components/About.vue';
 import Contact from '../components/Contact.vue';
 import Stores from '../components/Stores.vue';
 import Profile from '../components/Profile.vue';
+import Forgot from '../components/Forgot.vue';
 
 Vue.use(VueRouter);
 
@@ -35,6 +39,14 @@ const routes = [
     path: '/signup',
     name: 'signUp',
     component: SignUp,
+    meta: {
+      free: true
+    }
+  },
+  {
+    path: '/forgot',
+    name: 'forgot',
+    component: Forgot,
     meta: {
       free: true
     }
@@ -140,6 +152,30 @@ const routes = [
     path: '/admin/website-products',
     name: 'websiteProducts',
     component: WebsiteProducts,
+    meta: {
+      isAdmin: true
+    }
+  },
+  {
+    path: '/admin/categories',
+    name: 'adminCategories',
+    component: AdminCategories,
+    meta: {
+      isAdmin: true
+    }
+  },
+  {
+    path: '/admin/options',
+    name: 'options',
+    component: Options,
+    meta: {
+      isAdmin: true
+    }
+  },
+  {
+    path: '/admin/variants/:productId',
+    name: 'variants',
+    component: Variants,
     meta: {
       isAdmin: true
     }

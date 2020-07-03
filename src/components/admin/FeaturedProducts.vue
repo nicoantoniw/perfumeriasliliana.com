@@ -31,7 +31,7 @@
         <template v-slot:activator="{ on }">
           <v-icon class="mr-2" v-on="on" @click="removeFromFeatured(item)">mdi-delete</v-icon>
         </template>
-        <span>Sacar de la pagina</span>
+        <span>Sacar de Destacados</span>
       </v-tooltip>
     </template>
     <template v-slot:no-data>
@@ -54,6 +54,7 @@ export default {
         sortable: true,
         value: "code"
       },
+      { text: "Marca", value: "brand", sortable: true },
       { text: "Nombre", value: "name", sortable: true },
       { text: "Descripcion", value: "description", sortable: false },
       { text: "Categoria", value: "category.name", sortable: true },

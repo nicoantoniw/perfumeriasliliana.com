@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-icon class="mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
+    <v-icon class="mt-3 mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
     <div class="contact-container">
       <div class="contact-boxes">
         <div class="contact-box">
@@ -33,8 +33,17 @@
       </div>
       <div class="contact-form">
         <h1>Envianos tu consulta</h1>
+        <v-text-field v-model="email" outlined placeholder="Ingrese su email"></v-text-field>
         <v-textarea outlined color="black" v-model="message"></v-textarea>
-        <button class="btn" @click="sendEmail">Enviar</button>
+        <vue-recaptcha
+          sitekey="6Lfkl6UZAAAAANkMcb_9uLlDjg5n2_5HpXTMqcnl"
+          :loadRecaptchaScript="true"
+          @verify="captchaVerify"
+          @error="captchaError"
+          @expired="captchaExpired"
+          style="margin:auto"
+        ></vue-recaptcha>
+        <v-btn :disabled="!button" color="black" class="white--text" @click="sendEmail">Enviar</v-btn>
       </div>
     </div>
   </div>
@@ -44,20 +53,25 @@
 import axios from "axios";
 import errorAlertHandler from "../util/error";
 import moment from "moment";
+import VueRecaptcha from "vue-recaptcha";
 
 export default {
   name: "contact",
+  components: {
+    VueRecaptcha
+  },
   data: () => ({
     message: "",
-    subject: "Consulta desde Pagina Web",
-    receiver: "perfuliliana@yahoo.com.ar"
+    button: false,
+    email: ""
   }),
   methods: {
     async sendEmail() {
       const data = {
-        subject: this.subject,
-        receiver: this.receiver,
-        html: `Mensaje de: ${this.$store.state.email}
+        subject: "Consulta desde Pagina Web",
+        receiver: "perfuliliana@yahoo.com.ar",
+        sender: "mailer@ozixmedia.com",
+        html: `Mensaje de: ${this.email}
         
         <p>${this.message}</p>
         `
@@ -77,6 +91,23 @@ export default {
     },
     goBack() {
       this.$router.go(-1);
+    },
+    captchaVerify() {
+      this.button = true;
+    },
+    captchaError() {
+      this.$store.dispatch("showAlert", {
+        status: true,
+        type: "error",
+        text: "Error de verificacion, por favor intenta de nuevo"
+      });
+    },
+    captchaExpired() {
+      this.$store.dispatch("showAlert", {
+        status: true,
+        type: "warning",
+        text: "Captcha expirado, por favor intenta de nuevo"
+      });
     }
   }
 };
@@ -114,21 +145,21 @@ export default {
       text-align: center;
       margin-bottom: 2rem;
     }
-    .btn {
+    .v-text-field {
+      width: 60%;
+      margin: auto;
+    }
+    .v-btn {
       width: 20%;
       margin: auto;
-      background: #000;
-      color: white;
-      padding: 0.7rem;
-      transition: 0.3s ease-in-out;
-      border: 1px solid #000;
-      font-size: 1.2rem;
-      &:hover {
-        background: white;
-        color: black;
-        border: 1px solid #000;
-      }
+      margin-top: 2rem;
     }
+  }
+}
+
+@media only screen and (max-width: 1264px) {
+  .contact-boxes {
+    flex-direction: column;
   }
 }
 </style>
