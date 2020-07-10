@@ -1,6 +1,8 @@
 <template>
   <div>
-    <v-icon class="mt-3 mb-8 ml-8" color="black" @click="goBack" x-large>arrow_back</v-icon>
+    <v-icon class="mt-3 mb-8 ml-8" color="black" @click="goBack" x-large
+      >arrow_back</v-icon
+    >
     <div class="contact-container">
       <div class="contact-boxes">
         <div class="contact-box">
@@ -33,8 +35,17 @@
       </div>
       <div class="contact-form">
         <h1>Envianos tu consulta</h1>
-        <v-text-field v-model="email" outlined placeholder="Ingrese su email"></v-text-field>
-        <v-textarea outlined color="black" v-model="message"></v-textarea>
+        <v-text-field
+          v-model="email"
+          outlined
+          placeholder="Ingrese su email"
+        ></v-text-field>
+        <v-textarea
+          outlined
+          color="black"
+          placeholder="Mensaje..."
+          v-model="message"
+        ></v-textarea>
         <vue-recaptcha
           sitekey="6Lfkl6UZAAAAANkMcb_9uLlDjg5n2_5HpXTMqcnl"
           :loadRecaptchaScript="true"
@@ -43,50 +54,58 @@
           @expired="captchaExpired"
           style="margin:auto"
         ></vue-recaptcha>
-        <v-btn :disabled="!button" color="black" class="white--text" @click="sendEmail">Enviar</v-btn>
+        <v-btn
+          :disabled="!button"
+          color="black"
+          class="white--text"
+          @click="sendEmail"
+          >Enviar</v-btn
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import errorAlertHandler from "../util/error";
-import moment from "moment";
-import VueRecaptcha from "vue-recaptcha";
+import axios from 'axios';
+import errorAlertHandler from '../util/error';
+import moment from 'moment';
+import VueRecaptcha from 'vue-recaptcha';
 
 export default {
-  name: "contact",
+  name: 'contact',
   components: {
-    VueRecaptcha
+    VueRecaptcha,
   },
   data: () => ({
-    message: "",
+    message: '',
     button: false,
-    email: ""
+    email: '',
   }),
   methods: {
     async sendEmail() {
       const data = {
-        subject: "Consulta desde Pagina Web",
-        receiver: "perfuliliana@yahoo.com.ar",
-        sender: "mailer@ozixmedia.com",
+        subject: 'Consulta desde Pagina Web',
+        receiver: 'perfuliliana@yahoo.com.ar',
+        sender: 'mailer@perfumerialiliana.com',
         html: `Mensaje de: ${this.email}
         
         <p>${this.message}</p>
-        `
+        `,
       };
       try {
-        await axios.post(`/website/user/send-email`, data);
-        this.subject = "";
-        this.message = "";
-        this.$store.dispatch("showAlert", {
+        const response2 = await axios.post(`/website/user/send-email`, data);
+        console.log(response2.data.message);
+        this.subject = '';
+        this.message = '';
+        this.email = '';
+        this.$store.dispatch('showAlert', {
           status: true,
-          type: "success",
-          text: "Mensage enviado"
+          type: 'success',
+          text: 'Mensage enviado',
         });
       } catch (err) {
-        errorAlertHandler(err, "");
+        errorAlertHandler(err, '');
       }
     },
     goBack() {
@@ -96,20 +115,20 @@ export default {
       this.button = true;
     },
     captchaError() {
-      this.$store.dispatch("showAlert", {
+      this.$store.dispatch('showAlert', {
         status: true,
-        type: "error",
-        text: "Error de verificacion, por favor intenta de nuevo"
+        type: 'error',
+        text: 'Error de verificacion, por favor intenta de nuevo',
       });
     },
     captchaExpired() {
-      this.$store.dispatch("showAlert", {
+      this.$store.dispatch('showAlert', {
         status: true,
-        type: "warning",
-        text: "Captcha expirado, por favor intenta de nuevo"
+        type: 'warning',
+        text: 'Captcha expirado, por favor intenta de nuevo',
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

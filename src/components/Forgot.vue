@@ -37,10 +37,9 @@ export default {
           data
         );
         const password = response.data.password;
-        console.log(password);
         const data2 = {
           subject: "Contraseña reestablecida",
-          sender: "perfuliliana@yahoo.com.ar",
+          sender: "mailer@perfumerialiliana.com",
           receiver: this.email,
           html: `<h1>Cambio de Contraseña</h1>
 
@@ -49,7 +48,8 @@ export default {
         <p>Para mayor seguridad, ingresa a tu cuenta con la nueva contraseña y cambiala por una nueva.</p>
         `
         };
-        await axios.post(`/website/user/send-email`, data2);
+        const response2 = await axios.post(`/website/user/send-email`, data2);
+        console.log(response2.data.message);
         this.loader = false;
         this.button = false;
       } catch (error) {
